@@ -14,7 +14,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  String? _userName, _Password;
+  String? _userName, _password;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class _LoginState extends State<Login> {
                 TextFormField(
                   autofocus: false,
                   obscureText: true,
-                  onSaved: (value) => _Password = value!,
+                  onSaved: (value) => _password = value!,
                   decoration:
                       buildInputDecoration("Enter Password", Icons.lock),
                 ),
@@ -66,7 +66,7 @@ class _LoginState extends State<Login> {
                   onPressed: () {
                     Map data = {
                       'email': _userName.toString(),
-                      'password': _Password.toString(),
+                      'password': _password.toString(),
                     };
                     authViewModel.loginApi(data, context);
                     print("api hit");
