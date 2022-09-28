@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:loginnew/repository/auth_repository.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:loginnew/utility/utils.dart';
 import 'package:loginnew/views/home_view.dart';
 
 class AuthViewModel with ChangeNotifier {
@@ -19,7 +20,7 @@ class AuthViewModel with ChangeNotifier {
     setLoading(true);
     _myRepo.loginApi(data).then((value) {
       setLoading(false);
-      print("Log in Successfull ==========================>");
+      Utill.toastMessage("Log in Successfully");
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const HomeView()),
@@ -30,6 +31,7 @@ class AuthViewModel with ChangeNotifier {
     }).onError((error, stackTrace) {
       setLoading(false);
       if (kDebugMode) {
+        Utill.toastMessage(error.toString());
         print(error.toString());
       }
     });

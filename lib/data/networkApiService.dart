@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart';
+import 'package:loginnew/data/app_exception.dart';
 import 'package:loginnew/data/baseApiService.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,7 +15,7 @@ class NetworkApiService extends BaseApiService {
           await http.get(Uri.parse(url)).timeout(const Duration(seconds: 10));
       reponseJson = returnResponse(response);
     } on SocketException {
-      throw UnimplementedError();
+      throw FetachDataException("No Internet Connection");
     }
     return reponseJson;
   }
@@ -28,7 +29,7 @@ class NetworkApiService extends BaseApiService {
           .timeout(const Duration(seconds: 10));
       reponseJson = returnResponse(response);
     } on SocketException {
-      throw UnimplementedError();
+      throw FetachDataException("No Internet Connection");
     }
     return reponseJson;
   }
@@ -38,6 +39,16 @@ class NetworkApiService extends BaseApiService {
       case 200:
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
+      case 400:
+        throw BadRequestException(response.body.toString());
+      case 500:
+      case 404:
+        throw UnauthorisedException(response.body.toString());
+      default:
+        throw FetachDataException(
+            "Error accured while communicating with server" +
+                "with staus code" +
+                response.statusCode.toString());
     }
   }
 }
