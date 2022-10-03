@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loginnew/utility/utils.dart';
 import 'package:loginnew/view_model/auth_view_model.dart';
+import 'package:loginnew/views/cutom_comp/round_button.dart';
 import 'package:loginnew/views/register.dart';
 import 'package:loginnew/utility/widgets.dart';
 import 'package:provider/provider.dart';
@@ -72,30 +73,59 @@ class _LoginState extends State<Login> {
                 const SizedBox(
                   height: 15.0,
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red, // background
-                    onPrimary: Colors.white, // foreground
-                  ),
-                  child: const Text('Log in'),
-                  onPressed: () {
-                    if (_emailController.text.isEmpty) {
-                      Utill.toastMessage("please enter email");
-                    } else if (_passwordController.text.isEmpty) {
-                      Utill.toastMessage("Please Enter Password");
-                    } else if (_passwordController.text.length < 6) {
-                      Utill.toastMessage("Please enter 6 digit password");
-                    } else {
-                      //This should be Map data
-                    }
-                    Map data = {
-                      'email': _userName?.toString(),
-                      'password': _password?.toString(),
-                    };
-                    authViewModel.loginApi(data, context);
-                    print("api hit");
-                  },
-                ),
+
+                RoundButton(
+                    title: "Log in",
+                    loading: authViewModel.loading,
+                    onPress: () {
+                      if (_emailController.text.isEmpty) {
+                        Utill.toastMessage("please enter email");
+                      } else if (_passwordController.text.isEmpty) {
+                        Utill.toastMessage("Please Enter Password");
+                      } else if (_passwordController.text.length < 6) {
+                        Utill.toastMessage("Please enter 6 digit password");
+                      } else {
+                        //This should be Map data
+                      }
+
+                      Map data = {
+                        'email': 'eve.holt@reqres.in',
+                        'password': 'cityslicka',
+                      };
+                      authViewModel.loginApi(data, context);
+                      print("api hit");
+
+                      // Map data = {
+                      //   'email': _userName?.toString(),
+                      //   'password': _password?.toString(),
+                      // };
+                      // authViewModel.loginApi(data, context);
+                      // print("api hit");
+                    }),
+                // ElevatedButton(
+                //   style: ElevatedButton.styleFrom(
+                //     primary: Colors.red, // background
+                //     onPrimary: Colors.white, // foreground
+                //   ),
+                //   child: const Text('Log in'),
+                //   onPressed: () {
+                //     if (_emailController.text.isEmpty) {
+                //       Utill.toastMessage("please enter email");
+                //     } else if (_passwordController.text.isEmpty) {
+                //       Utill.toastMessage("Please Enter Password");
+                //     } else if (_passwordController.text.length < 6) {
+                //       Utill.toastMessage("Please enter 6 digit password");
+                //     } else {
+                //       //This should be Map data
+                //     }
+                //     Map data = {
+                //       'email': _userName?.toString(),
+                //       'password': _password?.toString(),
+                //     };
+                //     authViewModel.loginApi(data, context);
+                //     print("api hit");
+                //   },
+                // ),
                 const SizedBox(
                   height: 15.0,
                 ),
