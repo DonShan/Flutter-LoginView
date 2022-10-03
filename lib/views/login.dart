@@ -1,14 +1,15 @@
+import 'package:another_flushbar/flushbar_route.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loginnew/utility/utils.dart';
+import 'package:loginnew/utility/widgets.dart';
 import 'package:loginnew/view_model/auth_view_model.dart';
+import 'package:loginnew/views/cutom_comp/email_field_widget.dart';
+import 'package:loginnew/views/cutom_comp/password_feild_widget.dart';
 import 'package:loginnew/views/cutom_comp/round_button.dart';
 import 'package:loginnew/views/register.dart';
-import 'package:loginnew/utility/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:another_flushbar/flushbar_route.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
-import '../utility/validater.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -22,6 +23,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
     final authViewModel = Provider.of<AuthViewModel>(context);
 
     TextEditingController _emailController = TextEditingController();
@@ -43,6 +45,8 @@ class _LoginState extends State<Login> {
         child: Container(
           padding: const EdgeInsets.all(40.0),
           child: Form(
+            key: formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -50,12 +54,7 @@ class _LoginState extends State<Login> {
                 const SizedBox(
                   height: 15.0,
                 ),
-                TextFormField(
-                  autofocus: false,
-                  //       validator: validateEmail,
-                  onSaved: (value) => _userName = value!,
-                  decoration: buildInputDecoration("Enter Email", Icons.email),
-                ),
+                EmailDeildWidget(controller: _emailController),
                 const SizedBox(
                   height: 15.0,
                 ),
@@ -63,37 +62,30 @@ class _LoginState extends State<Login> {
                 const SizedBox(
                   height: 15.0,
                 ),
-                TextFormField(
-                  autofocus: false,
-                  obscureText: true,
-                  onSaved: (value) => _password = value!,
-                  decoration:
-                      buildInputDecoration("Enter Password", Icons.lock),
-                ),
+                PasswordDetailWidget(controller: _passwordController),
                 const SizedBox(
                   height: 15.0,
                 ),
-
                 RoundButton(
                     title: "Log in",
                     loading: authViewModel.loading,
                     onPress: () {
+                      final isValidForm = formKey.currentState!.validate();
                       if (_emailController.text.isEmpty) {
                         Utill.toastMessage("please enter email");
                       } else if (_passwordController.text.isEmpty) {
                         Utill.toastMessage("Please Enter Password");
                       } else if (_passwordController.text.length < 6) {
                         Utill.toastMessage("Please enter 6 digit password");
-                      } else {
+                      } else if (isValidForm) {
                         //This should be Map data
+                        Map data = {
+                          'email': 'eve.holt@reqres.in',
+                          'password': 'cityslicka',
+                        };
+                        authViewModel.loginApi(data, context);
+                        print("api hit");
                       }
-
-                      Map data = {
-                        'email': 'eve.holt@reqres.in',
-                        'password': 'cityslicka',
-                      };
-                      authViewModel.loginApi(data, context);
-                      print("api hit");
 
                       // Map data = {
                       //   'email': _userName?.toString(),

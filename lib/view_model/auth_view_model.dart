@@ -21,6 +21,9 @@ class AuthViewModel with ChangeNotifier {
     _myRepo.loginApi(data).then((value) {
       setLoading(false);
       Utill.toastMessage("Log in Successfully");
+      if (kDebugMode) {
+        print(value.toString());
+      }
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const HomeView()),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:loginnew/models/movies_model.dart';
 import 'package:loginnew/view_model/home_view_model.dart';
+import 'package:loginnew/view_model/user_view_model.dart';
+import 'package:loginnew/views/login.dart';
 import 'package:provider/provider.dart';
 
 import '../data/response/status.dart';
@@ -22,9 +24,26 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final userPrefernece = Provider.of<UserViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home View"),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {
+                userPrefernece.remove(true).then((value) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Login()),
+                  );
+                });
+              },
+              child: const Icon(Icons.logout),
+            ),
+          ),
+        ],
       ),
       body: ChangeNotifierProvider<HomeViewViewModel>(
         create: (BuildContext context) => homeViewViewModel,
@@ -50,8 +69,8 @@ class _HomeViewState extends State<HomeView> {
                             .toString()),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(
+                          children: const [
+                            Icon(
                               Icons.star,
                               color: Colors.yellow,
                             )

@@ -40,6 +40,9 @@ dependencies:
   provider: ^6.0.3
   another_flushbar: ^1.12.29
   fluttertoast: ^8.0.9
+  shared_preferences: ^2.0.15
+  form_field_validator: ^1.1.0
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loginnew/view_model/auth_view_model.dart';
+import 'package:loginnew/views/splash_view.dart';
+import 'package:loginnew/view_model/user_view_model.dart';
 import 'package:loginnew/views/login.dart';
 import 'package:provider/provider.dart';
 
@@ -14,14 +16,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => AuthViewModel())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthViewModel()),
+        ChangeNotifierProvider(create: (_) => UserViewModel())
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'MVVM login registration',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const Login(),
+        home: const SpalashView(),
       ),
     );
   }
