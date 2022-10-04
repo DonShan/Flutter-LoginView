@@ -27,11 +27,9 @@ class _EmailDeildWidgetState extends State<EmailDeildWidget> {
         ),
         keyboardType: TextInputType.emailAddress,
         autofillHints: const [AutofillHints.email],
-        validator: (email) {
-          email != null && !EmailValidator.validate(email)
-              ? 'Enter Valid Email'
-              : null;
-        },
+        validator: (email) => email != null && !EmailValidator.validate(email)
+            ? "Enter Valid Email"
+            : null,
         onSaved: (value) => _userName = value!,
       );
 }

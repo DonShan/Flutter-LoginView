@@ -19,8 +19,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  String? _userName, _password;
-
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
@@ -70,15 +68,13 @@ class _LoginState extends State<Login> {
                     title: "Log in",
                     loading: authViewModel.loading,
                     onPress: () {
-                      final isValidForm = formKey.currentState!.validate();
-                      if (_emailController.text.isEmpty) {
-                        Utill.toastMessage("please enter email");
-                      } else if (_passwordController.text.isEmpty) {
-                        Utill.toastMessage("Please Enter Password");
-                      } else if (_passwordController.text.length < 6) {
-                        Utill.toastMessage("Please enter 6 digit password");
-                      } else if (isValidForm) {
-                        //This should be Map data
+                      final form = formKey.currentState!;
+                      if (form.validate()) {
+                        final email = _emailController.text;
+                        ScaffoldMessenger.of(context)
+                          ..removeCurrentSnackBar()
+                          ..showSnackBar(
+                              SnackBar(content: Text("Your Email is $email")));
                         Map data = {
                           'email': 'eve.holt@reqres.in',
                           'password': 'cityslicka',
@@ -86,38 +82,7 @@ class _LoginState extends State<Login> {
                         authViewModel.loginApi(data, context);
                         print("api hit");
                       }
-
-                      // Map data = {
-                      //   'email': _userName?.toString(),
-                      //   'password': _password?.toString(),
-                      // };
-                      // authViewModel.loginApi(data, context);
-                      // print("api hit");
                     }),
-                // ElevatedButton(
-                //   style: ElevatedButton.styleFrom(
-                //     primary: Colors.red, // background
-                //     onPrimary: Colors.white, // foreground
-                //   ),
-                //   child: const Text('Log in'),
-                //   onPressed: () {
-                //     if (_emailController.text.isEmpty) {
-                //       Utill.toastMessage("please enter email");
-                //     } else if (_passwordController.text.isEmpty) {
-                //       Utill.toastMessage("Please Enter Password");
-                //     } else if (_passwordController.text.length < 6) {
-                //       Utill.toastMessage("Please enter 6 digit password");
-                //     } else {
-                //       //This should be Map data
-                //     }
-                //     Map data = {
-                //       'email': _userName?.toString(),
-                //       'password': _password?.toString(),
-                //     };
-                //     authViewModel.loginApi(data, context);
-                //     print("api hit");
-                //   },
-                // ),
                 const SizedBox(
                   height: 15.0,
                 ),
